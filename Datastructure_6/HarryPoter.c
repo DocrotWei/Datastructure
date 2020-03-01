@@ -1,3 +1,4 @@
+//tongbuceshi
 #include <stdlib.h>
 typedef struct GNode *PtrToGNode;
 #include <stdio.h>
@@ -106,3 +107,4 @@ int main(){
     BuildGraph(G);
     FindAnimal(G);
 }
+//jiushi1dhlashdlasda

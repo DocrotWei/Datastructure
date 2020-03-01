@@ -32,7 +32,7 @@ void BuildGraph(Graph G){
 }
 
 int FirstJump(Graph G, int V){
-    if(sqrt(G->C[V].X * G->C[V].X + G->C[V].Y * G->C[V].Y) < G->D)
+    if(sqrt(G->C[V].X * G->C[V].X + G->C[V].Y * G->C[V].Y) <= (G->D + 7.5))
         return 1;
     else
         return 0;
@@ -45,15 +45,15 @@ int Jump(Graph G, int V, int W){
     x = x * x;
     y = G->C[V].Y - G->C[W].Y;
     y = y * y;
-    if(sqrt(y + x) < G->D)
+    if(sqrt(y + x) <= G->D)
         return 1;
     else
         return 0;  
 }
 int IsSafe(Graph G, int V){
-    if(((G->C[V].X + 50) < G->D) && ((G->C[V].X - 50) < G->D))
+    if(((G->C[V].X + G->D) >= 50) || ((G->C[V].X - G->D) <= -50))
         return 1;
-    if(((G->C[V].Y + 50) < G->D) && ((G->C[V].Y - 50) < G->D))
+    if(((G->C[V].Y + G->D) >= 50) || ((G->C[V].Y - G->D) <= -50))
         return 1;
     return 0;
 }
@@ -77,13 +77,20 @@ int DFS(Graph G, int V){
 
 void Save007(Graph G){
     int Answer;
-    if(G->N == 0)
+    if(G->N == 0){
         Answer = 0;
+    }
     for(int i = 0; i < G->N; i++){
         if(!G->C[i].Visited && FirstJump(G, i)){
-            Answer = DFS(G, i);
-            if(Answer == 1)
+            if(G->D >= 42.5){
+                Answer = 1;
                 break;
+            }
+            else{
+                Answer = DFS(G, i);
+                if(Answer == 1)
+                    break;
+            }
         }
     }
     if(Answer == 1)
