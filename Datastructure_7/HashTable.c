@@ -19,7 +19,7 @@ typedef struct HNode *HashTable;
 HashTable InitializeTable(int TableSize){
     HashTable H = (HashTable)malloc(sizeof(struct HNode));
     H->TableSize = TableSize;
-    H->TheCells = malloc(sizeof(struct HashEntry) * TableSize);
+    H->TheCells = (struct HashEntry*)malloc(sizeof(struct HashEntry) * TableSize);
     while(TableSize){
         H->TheCells[--TableSize].Info = Empty;
     }
@@ -38,6 +38,7 @@ int Find(ElementType Key, HashTable H){
         if(pos == H->TableSize)
             pos -= H->TableSize;
     }
+    return pos;
 }
 
 void InsertAndOutput(ElementType Key, HashTable H){
@@ -50,5 +51,17 @@ void InsertAndOutput(ElementType Key, HashTable H){
 }
 
 int main(){
-    
+    HashTable H;
+    int TableSize, Num;
+    ElementType Key;
+    scanf("%d %d", &Num, &TableSize);
+    H = InitializeTable(TableSize);
+    scanf("%d", &Key);
+    InsertAndOutput(Key, H);
+    for(int i = 1; i < Num; i++){
+        scanf("%d ", &Key);
+        printf(" ");
+        InsertAndOutput(Key, H);
+    }
+    return 0;
 }
