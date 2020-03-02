@@ -43,10 +43,8 @@ int Find(ElementType Key, HashTable H){
 
 void InsertAndOutput(ElementType Key, HashTable H){
     int pos = Find(Key, H);
-    if(H->TheCells[pos].Info == Empty){
-        H->TheCells[pos].Element = Key;
-        H->TheCells[pos].Info = Legitimate;
-    }
+    H->TheCells[pos].Element = Key;
+    H->TheCells[pos].Info = Legitimate;
     printf("%d", pos);
 }
 
