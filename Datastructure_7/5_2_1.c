@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<math.h>
 
 /*-------------散列表定义-----------*/
 typedef int ElementType;
@@ -16,9 +17,29 @@ struct HNode{
 typedef struct HNode *HashTable;
 /*-------------------------------------*/
 
+int IsPrime(int Num){/*返回1为素数， 返回0为非素数*/
+    int i;
+    for(i = 2; i <= sqrt(Num); i++){
+        if((Num % i) == 0)
+            return 0;
+    }
+    return 1;
+}
+
+int FindPrime(int TableSzie){
+    int Prime = TableSzie;
+    while(!IsPrime(Prime)){
+        Prime++;
+    }
+    return Prime;
+}
+
 HashTable InitializeTable(int TableSize){
     HashTable H = (HashTable)malloc(sizeof(struct HNode));
-    H->TableSize = TableSize;
+    if(IsPrime(TableSize))
+        H->TableSize = TableSize;
+    else
+        H->TableSize = FindPrime(TableSize);
     H->TheCells = (struct HashEntry*)malloc(sizeof(struct HashEntry) * TableSize);
     while(TableSize){
         H->TheCells[--TableSize].Info = Empty;
@@ -26,28 +47,45 @@ HashTable InitializeTable(int TableSize){
     return H;
 }
 
+
+
 int Hash(ElementType Key, HashTable H){
     return Key % H->TableSize;
 }
 
-int Find(ElementType Key, HashTable H){
-    int pos;
-    pos = Hash(Key, H);
-    while((H->TheCells[pos].Info != Empty) && (H->TheCells[pos].Element != Key)){//第一个是
-        pos++;
-        if(pos == H->TableSize)
-            pos -= H->TableSize;
+int FindPos(ElementType Key, HashTable H){
+    int Next,Pos = Hash(Key, H), cnt = 0, j;
+    Next = Pos;
+    while((H->TheCells[Next].Info != Empty) && (Key ==  H->TheCells[Next].Element)){
+        if(++cnt % 2){
+            Next = Pos + (((cnt+1) * (cnt+1))>>2);
+            if(Next >= H->TableSize)
+                Next -= H->TableSize;
+        }
+        else
+        {
+            Next = Pos - ((cnt * cnt)>>2);
+            if(Next < 0)
+                Next += H->TableSize;
+        }
+        j++;
+        if(j == H->TableSize)
+            return -1;
     }
-    return pos;
+    return Next;
 }
 
 void InsertAndOutput(ElementType Key, HashTable H){
-    int pos = Find(Key, H);
+    int pos = FindPos(Key, H);
+    if(pos == -1){
+        printf("-");
+        return;
+    }
     if(H->TheCells[pos].Info == Empty){
         H->TheCells[pos].Element = Key;
         H->TheCells[pos].Info = Legitimate;
+        printf("%d", pos);
     }
-    printf("%d", pos);
 }
 
 int main(){
@@ -59,7 +97,7 @@ int main(){
     scanf("%d", &Key);
     InsertAndOutput(Key, H);
     for(int i = 1; i < Num; i++){
-        scanf("%d ", &Key);
+        scanf("%d", &Key);
         printf(" ");
         InsertAndOutput(Key, H);
     }
