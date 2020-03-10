@@ -2,6 +2,8 @@
     "files.associations": {
         "stdio.h": "c",
         "time.h": "c",
-        "Practice6_1.C": "cpp"
+        "Practice6_1.C": "cpp",
+        "2_2_2.C": "cpp",
+        "3_2_5.C": "cpp"
     }
 }
