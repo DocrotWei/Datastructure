@@ -3,21 +3,21 @@
 #define ElementType int
 #define MaxEle 1000
 
-MaxHeap HeapCreat(int MaxSize);
-bool IsFull(MaxHeap H);
-void Insert(MaxHeap H, ElementType item);
-bool IsEmpty(MaxHeap H);
-ElementType DeleteMax(MaxHeap H);
+MinHeap HeapCreat(int MaxSize);
+bool IsFull(MinHeap H);
+void Insert(MinHeap H, ElementType item);
+bool IsEmpty(MinHeap H);
+ElementType DeleteMax(MinHeap H);
 
-typedef struct HeapNode *MaxHeap;
+typedef struct HeapNode *MinHeap;
 struct HeapNode{
     ElementType *Elements;
     int Size;
     int Capacity;
 };
 
-MaxHeap HeapCreat(int MaxSize){
-    MaxHeap H = (MaxHeap)malloc(sizeof(struct HeapNode));
+MinHeap HeapCreat(int MaxSize){
+    MinHeap H = (MinHeap)malloc(sizeof(struct HeapNode));
     H->Capacity = MaxSize;
     H->Elements = malloc((MaxSize + 1) * sizeof(ElementType));//数组为最大值加1，是因为树是从1开始
     H->Size = 0;
@@ -25,15 +25,15 @@ MaxHeap HeapCreat(int MaxSize){
     return H;
 }
 
-bool IsFull(MaxHeap H){
+bool IsFull(MinHeap H){
     return (H->Size == H->Capacity);
 }
 
-bool IsEmpty(MaxHeap H){
+bool IsEmpty(MinHeap H){
     return (H->Size == 0);
 }
 
-void Insert(MaxHeap H, ElementType item){
+void Insert(MinHeap H, ElementType item){
     int i;
     if(IsFull(H)){
         printf("Heap is full");
@@ -46,7 +46,7 @@ void Insert(MaxHeap H, ElementType item){
     H->Elements[i] = item;
 }
 
-ElementType DeLeteMax(MaxHeap H){
+ElementType DeLeteMax(MinHeap H){
     int Parent, Child;
     ElementType MaxItem, Temp;
     if(IsEmpty(H)){
