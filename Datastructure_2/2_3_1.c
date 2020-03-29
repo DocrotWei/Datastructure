@@ -30,7 +30,6 @@ int main(){
         for(j = Now; j < N; j++){
             if(Visited[j] != 1){
                 Pirate[j] = 0;
-
             }
             else{
                 Visited[j] = 0;
